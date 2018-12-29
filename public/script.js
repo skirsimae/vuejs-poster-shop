@@ -22,17 +22,20 @@ new Vue({
             }
         },
         onSubmit: function() {
-            // empty the list before loading 
-            this.items = [];
-            this.loading = true;
-            this.$http.get('/search/'.concat(this.newSearch))
-            .then(function(res) {
-                this.lastSearch = this.newSearch;
-                this.results = res.data;
-                ///get first 10 items from the data
-                this.appendItems();
-                this.loading = false;
-            });
+            ///search only when there is a search term
+            if (this.newSearch.length) {
+                // empty the list before loading 
+                this.items = [];
+                this.loading = true;
+                this.$http.get('/search/'.concat(this.newSearch))
+                .then(function(res) {
+                    this.lastSearch = this.newSearch;
+                    this.results = res.data;
+                    ///get first 10 items from the data
+                    this.appendItems();
+                    this.loading = false;
+                });
+            }
         },
         addItem: function(index) {
             this.total += PRICE;
